@@ -1,0 +1,15 @@
+○ mysql.service - MySQL Community Server
+     Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Fri 2023-05-26 17:43:37 IST; 49min ago
+    Process: 1157 ExecStartPre=/usr/share/mysql/mysql-systemd-start pre (code=exited, status=0/SUCCESS)
+    Process: 1230 ExecStart=/usr/sbin/mysqld (code=exited, status=0/SUCCESS)
+   Main PID: 1230 (code=exited, status=0/SUCCESS)
+     Status: "Server shutdown complete"
+        CPU: 7min 39.589s
+
+May 26 07:41:59 lenovo systemd[1]: Starting MySQL Community Server...
+May 26 07:42:00 lenovo systemd[1]: Started MySQL Community Server.
+May 26 17:43:37 lenovo systemd[1]: Stopping MySQL Community Server...
+May 26 17:43:37 lenovo systemd[1]: mysql.service: Deactivated successfully.
+May 26 17:43:37 lenovo systemd[1]: Stopped MySQL Community Server.
+May 26 17:43:37 lenovo systemd[1]: mysql.service: Consumed 7min 39.589s CPU time.

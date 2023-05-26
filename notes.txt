@@ -1,0 +1,8 @@
+express-session - it is a middleware package which is responsible for making a session (ie creating a unique session id for the user and sending it in a cookie to the client)
+cookie-parser - it is a express middleware for parsing the cookie sent from the client into request.cookie object. 
+difference between cookie and session id--
+cookie stores the preferences of the user which also includes the session id whereas session id is a unique identifier
+
+
+nodelogin.sql - contains all the sql commands which are important. 
+
