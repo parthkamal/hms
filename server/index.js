@@ -10,7 +10,7 @@ const validator = require('express-validator');
 const async = require('async');
 const sweetalert2 = require('sweetalert2');
 const http = require('http');//core module
-const db = require('../server/controllers/dbController');
+const db = require('./controllers/dbController');
 
 
 const app = express();  //creating the express app instance. 
@@ -37,8 +37,10 @@ const sessionOptions = {
 
 const PORT = process.env.PORT;
 
-
+//establishing the database connection 
 db.createDbConnection();
+
+
 
 server.listen(PORT, () => console.log(`server running on port ${PORT}`));
 
