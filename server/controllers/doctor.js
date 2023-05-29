@@ -1,4 +1,4 @@
-const { addDoctor, getDoctorById, editDoctor, getAllDoctor, searchDoctor } = require('./dbController');
+const { addDoctor, getDoctorById, editDoctor, getAllDoctor, searchDoctor, deleteDoctorById } = require('./dbController');
 
 const doctorController = (request, response, next) => {
     if (request.cookies['username'] == null) {
@@ -58,7 +58,7 @@ const postEditDoctorController = (request, response) => {
     } = request.body;
 
 
-    editDoctor(first_name, last_name, email, dob, gender, address, phone, department, biography, (error, result) => {
+    editDoctor(first_name, last_name, email, dob, gender, address, phone, department, biography, id , (error, result) => {
         if (error) throw error;
         response.redirect('back');
     })
@@ -73,7 +73,7 @@ const getDeleteDoctorController = (request, response) => {
 
 const postDeleteDoctorController = (request, response) => {
     const {id } = request.params; 
-    getDoctorById(id, (error, result) => {
+    deleteDoctorById(id, (error, result) => {
         response.redirect('doctor');
     });
 }
