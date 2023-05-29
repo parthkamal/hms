@@ -77,7 +77,18 @@ const updateVerify = (email, email_status, callback) => {
     db.query(query, [email_status, email], callback);
 }
 
-module.exports = { createDbConnection, signup, verify, getTokenId, matchtoken, updateVerify };
+
+const findOne = (email, callback) => {
+    const query = 'select * from users where email = ? ';
+    db.query(query,[email],callback);
+}
+
+const temp = (id,email, token , callback) => {
+    const query = 'insert into temp ( id, email, token ) values ( ? , ? , ? )';
+    db.query(query,[id,email,token], callback);
+}
+
+module.exports = { createDbConnection, signup, verify, getTokenId, matchtoken, updateVerify, findOne, temp };
 
 
 

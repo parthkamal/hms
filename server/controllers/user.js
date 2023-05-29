@@ -1,10 +1,10 @@
-const express = require('express');
-const { signup, verify, getTokenId, matchtoken, updateVerify } = require('../controllers/dbController');
+const { signup, verify,temp ,  getTokenId, matchtoken, updateVerify ,findOne} = require('../controllers/dbController');
 const randomToken = require('random-token');
 const nodemailer = require('nodemailer');
-const session = require('express-session');
 const sweetalert = require('sweetalert2');
 const db = require('./dbConnection');
+const flash = require('flash');
+
 
 
 const signupController = (request, response) => {
@@ -21,16 +21,16 @@ const signupController = (request, response) => {
             let output = `your verification id and token is given below: ${id}, ${token}`;
 
             const transporter = nodemailer.createTransport({
-                host: 'smtp.ethereal.email',
+                host: process.env.ADMIN_SMTP_HOST,
                 port: 587,
                 auth: {
-                    user: 'alfredo.fadel@ethereal.email',
-                    pass: '2xV9M5XqsMdVck7gRA'
+                    user: process.env.ADMIN_EMAIL,
+                    pass: process.env.ADMIN_EMAIL_PASSWORD
                 }
             });
 
             const options = {
-                from: 'alfredo.fadel@ethereal.email',
+                from: process.env.ADMIN_EMAIL,
                 to: email,
                 subject: 'email verification',
                 html: output
@@ -94,5 +94,52 @@ const verifyController = (request, response) => {
     })
 }
 
+const resetPasswordController = (request, response) => {
+    const {email } =request.body; 
+    findOne(email,(error, result)=> {
+        if(!result){
+            const message = 'email does not exist'; ;
+            response.status(400).json({message});
+        }
 
-module.exports = { signupController, loginController, verifyController }
+        if(error){
+            response.status(400).json({error});
+        }
+
+        const { id, email} = result[0];
+        const token = randomToken(8);
+
+        temp(id,email, token, (error, result) =>{
+            let output = `your reset password verification id and token is given below: ${id}, ${token}`;
+
+            const transporter = nodemailer.createTransport({
+                host: process.env.ADMIN_SMTP_HOST,
+                port: 587,
+                auth: {
+                    user: process.env.ADMIN_EMAIL,
+                    pass: process.env.ADMIN_EMAIL_PASSWORD
+                }
+            });
+
+            const options = {
+                from: process.env.ADMIN_EMAIL,
+                to: email,
+                subject: 'email verification',
+                html: output
+            };
+
+
+            transporter.sendMail(options, (error, info) => {
+                if (error) return console.log({ error });
+                console.log({ info });
+            })
+
+            const message = 'check your email to reset the password';
+            response.status(200).json({ message });
+        })
+    })
+    
+}
+
+
+module.exports = { signupController, loginController, verifyController, resetPasswordController }
