@@ -1,8 +1,4 @@
-const mysql = require('mysql2');
-const express = require('express');
-const router = express.Router();
 const db = require('./dbConnection');
-const { errorMonitor } = require('nodemailer/lib/xoauth2');
 
 const createDbConnection = () => {
     db.connect((error) => {
@@ -70,25 +66,60 @@ const matchtoken = (id, token, callback) => {
     db.query(query, [id, token], callback);
 }
 
-
 const updateVerify = (email, email_status, callback) => {
     console.log('updateverify');
     const query = 'update users set email_status = ? where email = ?';
     db.query(query, [email_status, email], callback);
 }
 
-
 const findOne = (email, callback) => {
     const query = 'select * from users where email = ? ';
-    db.query(query,[email],callback);
+    db.query(query, [email], callback);
 }
 
-const temp = (id,email, token , callback) => {
+const temp = (id, email, token, callback) => {
     const query = 'insert into temp ( id, email, token ) values ( ? , ? , ? )';
-    db.query(query,[id,email,token], callback);
+    db.query(query, [id, email, token], callback);
 }
 
-module.exports = { createDbConnection, signup, verify, getTokenId, matchtoken, updateVerify, findOne, temp };
+
+const addDoctor = (first_name, last_name, email, dob, gender, address, filename, phone, department, biography, callback) => {
+
+}
+
+
+const editDoctor = (first_name, last_name, email, dob, gender, address, phone, department, biography, callback) => {
+
+}
+
+const getDoctorById = (id, callbabk) => {
+
+}
+
+const getAllDoctor = (callback) => {
+    
+}
+
+const searchDoctor = (key, callback) => {
+
+}
+
+
+module.exports = {
+    createDbConnection,
+    signup,
+    verify,
+    getTokenId,
+    matchtoken,
+    updateVerify,
+    findOne,
+    temp,
+    editDoctor,
+    getDoctorById,
+    addDoctor,
+    getAllDoctor, 
+    searchDoctor
+};
 
 
 

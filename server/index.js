@@ -13,8 +13,10 @@ const http = require('http');//core module
 const db = require('./controllers/dbController');
 
 
+
 //routes 
 const userRoute = require('./routes/user');
+const doctorRoute = require('./routes/doctor');
 
 
 const app = express();  //creating the express app instance. 
@@ -52,6 +54,7 @@ db.createDbConnection();
 
 //routes
 app.use('/',userRoute);
+app.use('/doctor',doctorRoute);
 
 
 
