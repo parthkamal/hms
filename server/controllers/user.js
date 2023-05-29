@@ -1,9 +1,9 @@
 const express = require('express');
-const { signup, verify, getUserId } = require('../controllers/dbController');
+const { signup, verify, getTokenId, matchtoken, updateVerify } = require('../controllers/dbController');
 const randomToken = require('random-token');
 const nodemailer = require('nodemailer');
 const session = require('express-session');
-const sweetalert  = require('sweetalert2');
+const sweetalert = require('sweetalert2');
 const db = require('./dbConnection');
 
 
@@ -13,7 +13,7 @@ const signupController = (request, response) => {
     signup(username, email, password, email_status);
     const token = randomToken(8);
     verify(username, email, token);
-    getUserId(email, (error, result) => {
+    getTokenId(email, (error, result) => {
         if (result) {
             console.log('result', result);
             let id = result[0].id;
@@ -45,31 +45,54 @@ const signupController = (request, response) => {
             response.status(200).json({ message });
         }
 
-        response.status(400).json({error});
+        if (error) response.status(400).json({ error });
 
     });
 }
 
-const loginController =(request, response )=> {
-    const {username, email, password} = request.body; 
-    db.query('select * from users where username = ? and password = ?',[username, password], (error, result)=> {
-        if(error)response.status(400).json({error});
-        if(result.length>0){ 
-            request.session.loggedIn = true; 
+const loginController = (request, response) => {
+    const { username, email, password } = request.body;
+    db.query('select * from users where username = ? and password = ?', [username, password], (error, result) => {
+        if (error) response.status(400).json({ error });
+        if (result.length > 0) {
+            request.session.loggedIn = true;
             request.session.username = username;
-            response.cookie('username',username);
+            response.cookie('username', username);
             let status = result[0].email_status;
-            if(status == 'not_verified'){
+            if (status == 'not_verified') {
                 const message = 'please verify the email'
-                response.status(400).json({message});
-            }else {
+                response.status(400).json({ message });
+            } else {
                 sweetalert.fire('logged in');
                 response.redirect('/home');
             }
         }
-        
+
+    })
+}
+
+const verifyController = (request, response) => {
+    const { id, token } = request.body;
+    matchtoken(id, token, (error, result) => {
+
+        if (error) {
+            console.log('error executing query', { error });
+        }
+
+        console.log(result);
+
+        if (result.length > 0) {
+            let email = result[0].email;
+            let email_status = "verified";
+            updateVerify(email, email_status, (error, result) => {
+                if (error) response.status(400).json({ error });
+                const message = "email is verified now. "
+                response.status(200).json({ message });
+            });
+        }
+        response.status(200).json({ result });
     })
 }
 
 
-module.exports = {signupController, loginController}
+module.exports = { signupController, loginController, verifyController }
