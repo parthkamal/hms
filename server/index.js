@@ -13,6 +13,10 @@ const http = require('http');//core module
 const db = require('./controllers/dbController');
 
 
+//routes 
+const userRoute = require('./routes/user');
+
+
 const app = express();  //creating the express app instance. 
 const server = http.createServer(app);//creating the http server 
 
@@ -21,10 +25,14 @@ const server = http.createServer(app);//creating the http server
 app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'secret',
+    resave: true, 
+    saveUninitialized: true
+}))
 
 
 //enviroment variables 
-// env.config({path: __dirname})
 env.config();
 
 
@@ -34,11 +42,16 @@ const sessionOptions = {
 }
 
 // app.use(session({genid:(req)=> genuuid}));
-
 const PORT = process.env.PORT;
 
 //establishing the database connection 
 db.createDbConnection();
+
+
+
+
+//routes
+app.use('/',userRoute);
 
 
 

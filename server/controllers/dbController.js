@@ -17,29 +17,42 @@ const createDbConnection = () => {
 }
 
 const signup = (username, email, password, status) => {
-    
-    db.query(`select email from users where email = ${email}`,(error,result)=>{
-        if(result[0]=== undefined){
-            let query = `insert into users (username, email, password, email_status) values (${username},${email},${password},${status})`;
-            console.log(query);
-        }else if(error){
+    const query = `select email from users where email = ${"'" + email + "'"};`;
+
+    db.query(query, (error, result) => {
+
+
+        if (result[0] == undefined) {
+            let query = `insert into users (username, email, password, email_status) values (${"'" + username + "'"},${"'" + email + "'"},${"'" + password + "'"},${"'" + status + "'"})`;
+
+            db.query(query, (err, data) => {
+                if (err) console.log({ err });
+                console.log({ data });
+            })
+        } else if (error) {
             console.log(error);
-        }else {
-            console.log({result});
+        } else {
+            console.log({ result });
         }
     })
 }
 
-const verify = (username, email, token ) => {
-    let query = `insert into verify (username, email, token) values (${username},${email},${token})`
-    console.log({query});
-    db.query(query,(error,result)=> {
-        if(error)console.log({error});
-        else console.log({result});
-    })
+const verify = (username, email, token) => {
+    let query = `insert into verify (username, email, token) values (${"'" + username + "'"},${"'" + email + "'"},${"'" + token + "'"})`;
+    console.log({ query });
+    db.query(query, (error, result) => {
+        if (result) console.log(result);
+        else console.log(error);
+    });
 }
 
-module.exports = { createDbConnection , signup,verify };
+const getUserId = (email, callback) => {
+    let query = `select * from verify where email = ${"'" + email + "'"}`;
+    console.log('getuserid',query);
+    db.query(query, callback);
+}
+
+module.exports = { createDbConnection, signup, verify, getUserId };
 
 
 

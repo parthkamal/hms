@@ -16,7 +16,4 @@ const userValidationMiddleware = (req, res, next) => {
     next();
 };
 
-module.exports = {
-    validateUser,
-    userValidationMiddleware,
-};
+module.exports = { validateUser, userValidationMiddleware };
