@@ -1,4 +1,9 @@
-const { addDoctor, getDoctorById, editDoctor, getAllDoctor, searchDoctor, deleteDoctorById } = require('./dbController');
+const { addDoctor,
+    getDoctorById,
+    editDoctor,
+    getAllDoctor,
+    searchDoctor,
+    deleteDoctorById } = require('../models/doctor');
 
 const doctorController = (request, response, next) => {
     if (request.cookies['username'] == null) {
@@ -58,38 +63,38 @@ const postEditDoctorController = (request, response) => {
     } = request.body;
 
 
-    editDoctor(first_name, last_name, email, dob, gender, address, phone, department, biography, id , (error, result) => {
+    editDoctor(first_name, last_name, email, dob, gender, address, phone, department, biography, id, (error, result) => {
         if (error) throw error;
         response.redirect('back');
     })
 }
 
 const getDeleteDoctorController = (request, response) => {
-    const { id} = request.params; 
-    getDoctorById(id,(error,result) => {
-        response.render('delete_doctor.ejs', {list: result});
+    const { id } = request.params;
+    getDoctorById(id, (error, result) => {
+        response.render('delete_doctor.ejs', { list: result });
     })
 }
 
 const postDeleteDoctorController = (request, response) => {
-    const {id } = request.params; 
+    const { id } = request.params;
     deleteDoctorById(id, (error, result) => {
         response.redirect('doctor');
     });
 }
 
-const showDoctorController = (request,response) => {
-    getAllDoctor((error,result) => {
-        if(error) throw error; 
-        response.render('doctor.ejs',{list:result});
+const showDoctorController = (request, response) => {
+    getAllDoctor((error, result) => {
+        if (error) throw error;
+        response.render('doctor.ejs', { list: result });
     });
 }
 
-const searchDoctorController = (request,response) => {
-    const {key } = request.body; 
-    searchDoctor(key,(error, result) => {
-        console.log({result});
-        response.render('doctor.ejs', {list:result});
+const searchDoctorController = (request, response) => {
+    const { key } = request.body;
+    searchDoctor(key, (error, result) => {
+        console.log({ result });
+        response.render('doctor.ejs', { list: result });
     })
 
 }

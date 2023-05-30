@@ -1,9 +1,21 @@
-const { signup, verify,temp ,  getTokenId, matchtoken, updateVerify ,findOne} = require('../controllers/dbController');
+const
+    { signup,
+        verify,
+        temp,
+        getTokenId,
+        matchtoken,
+        updateVerify,
+        findOne
+    } = require('../models/user');
+
+
 const randomToken = require('random-token');
 const nodemailer = require('nodemailer');
 const sweetalert = require('sweetalert2');
-const db = require('./dbConnection');
+const db = require('../models/dbConnection');
 const flash = require('flash');
+
+
 
 
 
@@ -95,21 +107,21 @@ const verifyController = (request, response) => {
 }
 
 const resetPasswordController = (request, response) => {
-    const {email } =request.body; 
-    findOne(email,(error, result)=> {
-        if(!result){
-            const message = 'email does not exist'; ;
-            response.status(400).json({message});
+    const { email } = request.body;
+    findOne(email, (error, result) => {
+        if (!result) {
+            const message = 'email does not exist';;
+            response.status(400).json({ message });
         }
 
-        if(error){
-            response.status(400).json({error});
+        if (error) {
+            response.status(400).json({ error });
         }
 
-        const { id, email} = result[0];
+        const { id, email } = result[0];
         const token = randomToken(8);
 
-        temp(id,email, token, (error, result) =>{
+        temp(id, email, token, (error, result) => {
             let output = `your reset password verification id and token is given below: ${id}, ${token}`;
 
             const transporter = nodemailer.createTransport({
@@ -138,7 +150,7 @@ const resetPasswordController = (request, response) => {
             response.status(200).json({ message });
         })
     })
-    
+
 }
 
 

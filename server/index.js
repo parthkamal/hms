@@ -1,22 +1,14 @@
 const express = require('express');
-const path = require('path'); //core module
 const session = require('express-session');
 const env = require('dotenv');
-const ejs = require('ejs');
-const multer = require('multer');
-const nodemailer = require('nodemailer');
-const crypto = require('crypto');
-const validator = require('express-validator');
-const async = require('async');
-const sweetalert2 = require('sweetalert2');
-const http = require('http');//core module
-const db = require('./controllers/dbController');
+const {db, createDbConnection} = require('./controllers/dbController');
 
 
 
 //routes 
 const userRoute = require('./routes/user');
 const doctorRoute = require('./routes/doctor');
+const employeeRoute = require('./routes/employee');
 
 
 const app = express();  //creating the express app instance. 
@@ -47,7 +39,7 @@ const sessionOptions = {
 const PORT = process.env.PORT;
 
 //establishing the database connection 
-db.createDbConnection();
+createDbConnection(db);
 
 
 
@@ -55,6 +47,8 @@ db.createDbConnection();
 //routes
 app.use('/',userRoute);
 app.use('/doctor',doctorRoute);
+app.use('/employee', employeeRoute);
+
 
 
 
