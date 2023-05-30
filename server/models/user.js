@@ -1,4 +1,4 @@
-const db = require('./dbConnection');
+const {db} = require('./dbConnection');
 
 
 const signup = (username, email, password, email_status) => {

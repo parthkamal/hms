@@ -27,7 +27,7 @@ const editAppointmentById = (patient_name, department, doctor_name, date, time, 
 
 const deleteAppointmentById = (id, callback) => {
     const query = 'delete from appointment where id = ?';
-    db.query(query,[id],callback);
+    db.query(query, [id], callback);
 }
 
 

@@ -1,11 +1,10 @@
-const db = require('./dbConnection');
+const {db} = require('./dbConnection');
 
 
 // ======================================================================
 
 const addDoctor = (first_name, last_name, email, dob, gender, address, image, phone, department, biography, callback) => {
     const query = 'insert into doctor (first_name, last_name, email, dob, gender, address, image, phone, department, biography )  values (?,?,?,?,?,?,?,?,?,?)';
-
     db.query(query, [first_name, last_name, email, dob, gender, address, image, phone, department, biography], callback);
 }
 
