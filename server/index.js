@@ -9,6 +9,8 @@ const {db, createDbConnection} = require('./controllers/dbController');
 const userRoute = require('./routes/user');
 const doctorRoute = require('./routes/doctor');
 const employeeRoute = require('./routes/employee');
+const appointmentRoute= require('./routes/appointment');
+
 
 
 const app = express();  //creating the express app instance. 
@@ -48,6 +50,7 @@ createDbConnection(db);
 app.use('/',userRoute);
 app.use('/doctor',doctorRoute);
 app.use('/employee', employeeRoute);
+app.use('/appointment',appointmentRoute);
 
 
 
