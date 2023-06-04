@@ -1,11 +1,13 @@
 const express = require('express');
 const session = require('express-session');
 const env = require('dotenv');
-const {db, createDbConnection} = require('./controllers/dbController');
+const http = require('http');
+const { db, createDbConnection } = require('./models/dbConnection');
 
 
 
 //routes 
+const homeRoute = require('./routes/home');
 const userRoute = require('./routes/user');
 const doctorRoute = require('./routes/doctor');
 const employeeRoute = require('./routes/employee');
@@ -19,13 +21,16 @@ const app = express();  //creating the express app instance.
 const server = http.createServer(app);//creating the http server 
 
 
+//view engine
+app.set('view engine ', 'ejs');
+
 //middlwares 
 app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: 'secret',
-    resave: true, 
+    resave: true,
     saveUninitialized: true
 }))
 
@@ -49,13 +54,15 @@ createDbConnection(db);
 
 
 //routes
-app.use('/',userRoute);
-app.use('/doctor',doctorRoute);
+app.use('/', userRoute);
+app.use('/home',homeRoute);
+
+app.use('/doctor', doctorRoute);
 app.use('/employee', employeeRoute);
-app.use('/appointment',appointmentRoute);
+app.use('/appointment', appointmentRoute);
 app.use('/store', storeRoute);
-app.use('/complain',complainRoute);
-app.use('/receipt',receiptRoute);
+app.use('/complain', complainRoute);
+app.use('/receipt', receiptRoute);
 
 
 

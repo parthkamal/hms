@@ -37,11 +37,7 @@ const deleteDoctorById = (id, callback) => {
     db.query(query, [id], callback);
 }
 
-const getAllDepartment = (callback) => {
-    const query = 'select * from department';
-    db.query(query, callback);
-    console.log(query);
-}
+
 
 
 
@@ -57,7 +53,7 @@ module.exports = {
     getAllDoctor,
     searchDoctor,
     deleteDoctorById,
-    getAllDepartment,
+    
 };
 
 

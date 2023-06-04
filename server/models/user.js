@@ -70,6 +70,16 @@ const temp = (id, email, token, callback) => {
     db.query(query, [id, email, token], callback);
 }
 
+const getUserByUsername  = (username, callback) =>{
+    const query = 'select * from users where username = ? ';
+    db.query(query,[username],callback);
+} 
+
+const updateUser  = (id,username,email, password, callback) => {
+    const query = 'update users set username = ? , email = ? , password = ? where id = ?';
+    db.query(query,[username,email,password,id],callback);
+}
+
 
 
 
@@ -81,6 +91,8 @@ module.exports = {
     updateVerify,
     findOne,
     temp,
+    getUserByUsername,
+    updateUser
 };
 
 

@@ -62,6 +62,11 @@ const signupController = (request, response) => {
     });
 }
 
+
+const getLoginController = (request,response) => {
+    response.render('login.ejs')
+}
+
 const loginController = (request, response) => {
     const { username, email, password } = request.body;
     db.query('select * from users where username = ? and password = ?', [username, password], (error, result) => {
@@ -154,4 +159,8 @@ const resetPasswordController = (request, response) => {
 }
 
 
-module.exports = { signupController, loginController, verifyController, resetPasswordController }
+module.exports = { signupController, 
+    getLoginController,
+    loginController,
+     verifyController, 
+     resetPasswordController }
