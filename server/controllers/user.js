@@ -15,8 +15,6 @@ const randomToken = require('random-token');
 const nodemailer = require('nodemailer');
 const sweetalert = require('sweetalert2');
 const db = require('../models/dbConnection');
-const flash = require('flash');
-const { response } = require('express');
 
 
 
@@ -34,16 +32,16 @@ const signupController = (request, response) => {
             let id = result[0].id;
             console.log('get user id', id);
             let output = `your verification id and token is given below: ${id}, ${token}
-            
-            </li>
-            </ul>
-            <p>verify Link: <a href="http://localhost:3000/verify">Verify</a></p>
-            
-            <p><strong>This is an automatically generated mail. Please do not reply back.</strong></p>
-            
-            <p>Regards,</p>
-            <p>H Manager</p>
-            `;
+
+	    </li>
+	    </ul>
+	    <p>verify Link: <a href="http://localhost:3000/verify">Verify</a></p>
+
+	    <p><strong>This is an automatically generated mail. Please do not reply back.</strong></p>
+
+	    <p>Regards,</p>
+	    <p>H Manager</p>
+	    `;
 
             const transporter = nodemailer.createTransport({
                 host: process.env.ADMIN_SMTP_HOST,
@@ -101,6 +99,11 @@ const loginController = (request, response) => {
     })
 }
 
+
+const getVerifyController = (request, response) => {
+    response.render('verify.ejs');
+}
+
 const verifyController = (request, response) => {
     const { id, token } = request.body;
     matchtoken(id, token, (error, result) => {
@@ -147,14 +150,14 @@ const resetPasswordController = (request, response) => {
 
         temp(id, email, token, (error, result) => {
             let output = `your reset password verification id and token is given below: ${id}, ${token}
-            
-            
-            <p>Login Link: <a href="http://localhost:3000/login">LOGIN</a></p>
-            <p>You may change your password after you login under the section - ACCOUNT SETTINGS</p>
-            <p><strong>This is an automatically generated mail. Please do not reply back.</strong></p>
-            
-            <p>Regards,</p>
-            <p>H Manager</p>`;
+
+
+	    <p>Login Link: <a href="http://localhost:3000/login">LOGIN</a></p>
+	    <p>You may change your password after you login under the section - ACCOUNT SETTINGS</p>
+	    <p><strong>This is an automatically generated mail. Please do not reply back.</strong></p>
+
+	    <p>Regards,</p>
+	    <p>H Manager</p>`;
 
             const transporter = nodemailer.createTransport({
                 host: process.env.ADMIN_SMTP_HOST,
@@ -238,6 +241,7 @@ module.exports = {
     signupController,
     getLoginController,
     loginController,
+    getVerifyController,
     verifyController,
     getResetPasswordController,
     resetPasswordController,
