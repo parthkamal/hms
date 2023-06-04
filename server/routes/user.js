@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
 const { validateUser, userValidationMiddleware } = require('../validators/user');
+const { verifyToken, verifyTokenMiddleware } = require('../validators/token');
 
 const { signupController,
     loginController,
@@ -10,10 +12,11 @@ const { signupController,
     getResetPasswordController,
     getSetPasswordController,
     postSetPasswordController,
-    getVerifyController } = require('../controllers/user');
-const { verifyToken, verifyTokenMiddleware } = require('../validators/token');
+    getVerifyController, 
+    getSignupController} = require('../controllers/user');
+    
 
-
+router.get('/signup',getSignupController);
 router.post('/signup', validateUser, userValidationMiddleware, signupController);
 router.get('/login', getLoginController);
 router.post('/login', validateUser, userValidationMiddleware, loginController)

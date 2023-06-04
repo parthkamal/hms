@@ -16,7 +16,9 @@ const nodemailer = require('nodemailer');
 const sweetalert = require('sweetalert2');
 const db = require('../models/dbConnection');
 
-
+const getSignupController = (request,response) => {
+    response.render('signup.ejs');
+}
 
 
 
@@ -238,6 +240,7 @@ const postSetPasswordController = (request, response) => {
 
 
 module.exports = {
+    getSignupController,
     signupController,
     getLoginController,
     loginController,
@@ -246,5 +249,6 @@ module.exports = {
     getResetPasswordController,
     resetPasswordController,
     getSetPasswordController,
-    postSetPasswordController
+    postSetPasswordController,
+    
 }
