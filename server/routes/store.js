@@ -18,7 +18,7 @@ router.get('/',getAllStoreController);
 router.get('/add_med',getAddStoreController);
 router.post('/add_med',postAddStoreController);
 router.get('/edit_med/:id',getEditStoreController);
-router.post('/edit_med/:med',postEditStoreController);
+router.post('/edit_med/:id',postEditStoreController);
 router.get('/delete_med/:id',getDeleteStoreController);
 router.post('/delete_med/:id',postDeleteStoreController);
 router.post('/search',postSearchStoreController);
