@@ -12,11 +12,11 @@ const getAllStoreController = (request, response) => {
     getAllStore((error, result) => {
         if (error) console.log({ error });
         response.render('store.ejs', { list: result });
-    })
+    })  
 }
 
 const getAddStoreController = (request, response) => {
-    response, render('add_med.ejs');
+    response.render('add_med.ejs');
 }
 
 
