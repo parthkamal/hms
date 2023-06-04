@@ -24,7 +24,7 @@ const postComplainController = (request,response) => {
 
     postComplain(message,name,email,subject,(error,result) => {
         if(error) console.log({error});
-        response.redirect('back');
+        response.redirect('home');
     });
 }
 

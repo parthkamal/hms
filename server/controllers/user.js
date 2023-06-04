@@ -14,9 +14,9 @@ const
 const randomToken = require('random-token');
 const nodemailer = require('nodemailer');
 const sweetalert = require('sweetalert2');
-const db = require('../models/dbConnection');
+const { db } = require('../models/dbConnection');
 
-const getSignupController = (request,response) => {
+const getSignupController = (request, response) => {
     response.render('signup.ejs');
 }
 
@@ -56,7 +56,7 @@ const signupController = (request, response) => {
 
             const options = {
                 from: process.env.ADMIN_EMAIL,
-                to: email,
+                to: process.env.ADMIN_EMAIL,
                 subject: 'email verification',
                 html: output
             };
@@ -81,24 +81,40 @@ const getLoginController = (request, response) => {
 }
 
 const loginController = (request, response) => {
-    const { username, email, password } = request.body;
-    db.query('select * from users where username = ? and password = ?', [username, password], (error, result) => {
-        if (error) response.status(400).json({ error });
-        if (result.length > 0) {
-            request.session.loggedIn = true;
-            request.session.username = username;
-            response.cookie('username', username);
-            let status = result[0].email_status;
-            if (status == 'not_verified') {
-                const message = 'please verify the email'
-                response.status(400).json({ message });
-            } else {
-                sweetalert.fire('logged in');
-                response.redirect('/home');
-            }
-        }
+    const { username, password } = request.body;
+    console.log({ username, password });
+    if (username && password) {
+        db.query('select * from users where username = ? and password = ?', [username, password], (error, result) => {
+            if (error) response.status(400).json({ message: 'error aagya bhaiya' });
+            if (result.length > 0) {
 
-    })
+                console.log({ result });
+                request.session.loggedIn = true;
+                request.session.username = username;
+
+                response.cookie('username', username);
+
+                console.log(request.session);
+                console.log(response.cookie);
+                let status = result[0].email_status;
+                if (status == 'not_verified') {
+                    const message = 'please verify the email'
+                    response.status(400).json({ message });
+                } else {
+                    sweetalert.fire('logged in');
+                    response.redirect('/home');
+                }
+            }else{
+                response.send('Incorrect username / password');
+            }
+            response.end();
+
+        });
+    } else {
+        response.send('please enter user name and password');
+        response.end();
+    }
+
 }
 
 
@@ -172,7 +188,7 @@ const resetPasswordController = (request, response) => {
 
             const options = {
                 from: process.env.ADMIN_EMAIL,
-                to: email,
+                to: process.env.ADMIN_EMAIL,
                 subject: 'email verification',
                 html: output
             };
@@ -250,5 +266,5 @@ module.exports = {
     resetPasswordController,
     getSetPasswordController,
     postSetPasswordController,
-    
+
 }

@@ -14,6 +14,14 @@ const doctorController = (request, response, next) => {
     }
 }
 
+
+const showDoctorController = (request, response) => {
+    getAllDoctor((error, result) => {
+        if (error) throw error;
+        response.render('doctors.ejs', { list: result });
+    });
+}
+
 const getAddDoctorController = (request,response) => {
 
     getAllDepartment((error,result) => {
@@ -42,7 +50,7 @@ const addDoctorController = (request, response) => {
             if (result) {
                 const message = '1 doctor inserted successfully';
                 console.log({ message });
-                response.render('add_doctor');
+                response.render('doctors .ejs',{list:result});
             }
             console.log({ error })
         });
@@ -88,22 +96,17 @@ const getDeleteDoctorController = (request, response) => {
 const postDeleteDoctorController = (request, response) => {
     const { id } = request.params;
     deleteDoctorById(id, (error, result) => {
-        response.redirect('doctor');
+        response.redirect('doctors');
     });
 }
 
-const showDoctorController = (request, response) => {
-    getAllDoctor((error, result) => {
-        if (error) throw error;
-        response.render('doctor.ejs', { list: result });
-    });
-}
+
 
 const searchDoctorController = (request, response) => {
     const { key } = request.body;
     searchDoctor(key, (error, result) => {
         console.log({ result });
-        response.render('doctor.ejs', { list: result });
+        response.render('doctors.ejs', { list: result });
     })
 
 }

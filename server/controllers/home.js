@@ -6,6 +6,12 @@ const { getUserByUsername, updateUser } = require('../models/user');
 
 
 const departmentController = (request, response, next) => {
+    console.log('home/')
+    console.log(request.session);
+    console.log(request.cookies);
+    console.log(response.cookies);
+    console.log('home/')
+
     if (request.cookies['username'] == null) {
         response.redirect('/login');
     } else {

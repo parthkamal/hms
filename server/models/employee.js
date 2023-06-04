@@ -32,10 +32,11 @@ const deleteEmployeeById = (id, callback) => {
 
 
 const searchEmployee = (key, callback) => {
-    const query = `select * from doctor where name like '%${key}%'`;
+    const query = `select * from employee where name like '%${key}%'`;
     db.query(query, callback);
     console.log(query);
 }
+
 
 
 

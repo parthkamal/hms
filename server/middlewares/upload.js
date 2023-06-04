@@ -3,11 +3,11 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback){
-        cb(null, 'public/assets/images/upload_images');
+        callback(null, 'public/assets/images/upload_images');
     },
-    filename: function (req, file, cb){
+    filename: function (req, file, callback){
         console.log(file);
-        cb(null, file.originalname);
+        callback(null, file.originalname);
     }
 })
 

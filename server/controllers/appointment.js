@@ -6,8 +6,8 @@ const { getAllAppointment,
 
 
 
-const getAppointmentController = (request, response) => {
-    if (request.coookies['username'] == null) {
+const getAppointmentController = (request, response, next) => {
+    if (request.cookies['username'] == null) {
         response.redirect('/login');
     } else {
         next();
@@ -23,7 +23,7 @@ const getAllAppointmentController = (request, response) => {
 }
 
 const getAddAppointmentController = (request, response) => {
-    response.render('appointment.ejs');
+    response.render('add_appointment.ejs');
 }
 
 

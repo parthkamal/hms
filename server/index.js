@@ -3,6 +3,7 @@ const session = require('express-session');
 const env = require('dotenv');
 const http = require('http');
 const { db, createDbConnection } = require('./models/dbConnection');
+const cookie = require('cookie-parser');
 
 
 
@@ -35,17 +36,15 @@ app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true
-}))
+}));
+app.use(cookie());
 
 
 //enviroment variables 
 env.config();
 
 
-const sessionOptions = {
-    genid: (request) => genuuid,
-    secret: 'session-secret'
-}
+
 
 // app.use(session({genid:(req)=> genuuid}));
 const PORT = process.env.PORT;
