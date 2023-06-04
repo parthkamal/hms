@@ -15,6 +15,7 @@ const appointmentRoute = require('./routes/appointment');
 const storeRoute = require('./routes/store');
 const receiptRoute = require('./routes/receipt');
 const complainRoute = require('./routes/complain');
+const logoutRoute = require('./routes/logout');
 
 
 const app = express();  //creating the express app instance. 
@@ -62,6 +63,7 @@ app.use('/appointment', appointmentRoute);
 app.use('/store', storeRoute);
 app.use('/complain', complainRoute);
 app.use('/receipt', receiptRoute);
+app.use('/logout',logoutRoute);
 
 
 

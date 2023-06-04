@@ -186,7 +186,7 @@ const resetPasswordController = (request, response) => {
 }
 
 
-const getSetPasswordController = (request,response) => {
+const getSetPasswordController = (request, response) => {
     response.render('setpassword.ejs');
 }
 
@@ -197,33 +197,33 @@ const getSetPasswordController = (request,response) => {
 
 
 
-const postSetPasswordController = (request,response) =>{
+const postSetPasswordController = (request, response) => {
 
-    const {token } = request.body;
-    checkToken(token,(error,result) => {
-        
-        if (result.length > 0 ){
+    const { token } = request.body;
+    checkToken(token, (error, result) => {
+
+        if (result.length > 0) {
 
             console.log(result);
             var newpassword = request.body.password;
-            var id =result[0].id;
-            setPassword(id,newpassword,(error,result1)=>{
-                if(err){
-                   // console.log('token did not match');
+            var id = result[0].id;
+            setPassword(id, newpassword, (error, result1) => {
+                if (err) {
+                    // console.log('token did not match');
                     response.send('token did not match');
                 }
-                else{
+                else {
                     response.send('Password has been changed...Go to login page');
                 }
-                
+
             });
-           
+
         }
         else {
             response.send('Token didnt match!!!');
         }
-           
-        
+
+
     });
 }
 

@@ -1,4 +1,4 @@
-const {db} = require('./dbConnection');
+const { db } = require('./dbConnection');
 
 
 const signup = (username, email, password, email_status) => {
@@ -70,27 +70,27 @@ const temp = (id, email, token, callback) => {
     db.query(query, [id, email, token], callback);
 }
 
-const getUserByUsername  = (username, callback) =>{
+const getUserByUsername = (username, callback) => {
     const query = 'select * from users where username = ? ';
-    db.query(query,[username],callback);
-} 
+    db.query(query, [username], callback);
+}
 
-const updateUser  = (id,username,email, password, callback) => {
+const updateUser = (id, username, email, password, callback) => {
     const query = 'update users set username = ? , email = ? , password = ? where id = ?';
-    db.query(query,[username,email,password,id],callback);
+    db.query(query, [username, email, password, id], callback);
 }
 
 
-const checkToken= function (token, callback) {
-  var query = "select *from temp where token='" + token + "'";
-  con.query(query, callback);
-  console.log(query);
+const checkToken = function (token, callback) {
+    var query = "select *from temp where token='" + token + "'";
+    con.query(query, callback);
+    console.log(query);
 };
 
-const setPassword= function (id, newpassword, callback) {
-  var query =
-    "update `users` set `password`='" + newpassword + "' where id=" + id;
-  con.query(query, callback);
+const setPassword = function (id, newpassword, callback) {
+    var query =
+        "update `users` set `password`='" + newpassword + "' where id=" + id;
+    con.query(query, callback);
 };
 
 
@@ -109,8 +109,8 @@ module.exports = {
     temp,
     getUserByUsername,
     updateUser,
-	checkToken, 
-	setPassword
+    checkToken,
+    setPassword
 };
 
 
