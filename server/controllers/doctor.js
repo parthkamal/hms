@@ -1,3 +1,4 @@
+const { getAllDepartment } = require('../models/department');
 const { addDoctor,
     getDoctorById,
     editDoctor,
@@ -11,6 +12,14 @@ const doctorController = (request, response, next) => {
     } else {
         next();
     }
+}
+
+const getAddDoctorController = (request,response) => {
+
+    getAllDepartment((error,result) => {
+        if(error) console.log({error});
+        response.render('add_doctor.ejs',{list:result});
+    })
 }
 
 const addDoctorController = (request, response) => {
@@ -101,6 +110,7 @@ const searchDoctorController = (request, response) => {
 
 module.exports = {
     doctorController,
+    getAddDoctorController,
     addDoctorController,
     getEditDoctorController,
     postEditDoctorController,

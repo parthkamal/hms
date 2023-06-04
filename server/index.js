@@ -56,8 +56,7 @@ createDbConnection(db);
 //routes
 app.use('/', userRoute);
 app.use('/home',homeRoute);
-
-app.use('/doctor', doctorRoute);
+app.use('/doctors', doctorRoute);
 app.use('/employee', employeeRoute);
 app.use('/appointment', appointmentRoute);
 app.use('/store', storeRoute);

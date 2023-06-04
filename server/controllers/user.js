@@ -5,7 +5,9 @@ const
         getTokenId,
         matchtoken,
         updateVerify,
-        findOne
+        findOne,
+        checkToken,
+        setPassword
     } = require('../models/user');
 
 
@@ -14,6 +16,7 @@ const nodemailer = require('nodemailer');
 const sweetalert = require('sweetalert2');
 const db = require('../models/dbConnection');
 const flash = require('flash');
+const { response } = require('express');
 
 
 
@@ -30,7 +33,17 @@ const signupController = (request, response) => {
             console.log('result', result);
             let id = result[0].id;
             console.log('get user id', id);
-            let output = `your verification id and token is given below: ${id}, ${token}`;
+            let output = `your verification id and token is given below: ${id}, ${token}
+            
+            </li>
+            </ul>
+            <p>verify Link: <a href="http://localhost:3000/verify">Verify</a></p>
+            
+            <p><strong>This is an automatically generated mail. Please do not reply back.</strong></p>
+            
+            <p>Regards,</p>
+            <p>H Manager</p>
+            `;
 
             const transporter = nodemailer.createTransport({
                 host: process.env.ADMIN_SMTP_HOST,
@@ -63,7 +76,7 @@ const signupController = (request, response) => {
 }
 
 
-const getLoginController = (request,response) => {
+const getLoginController = (request, response) => {
     response.render('login.ejs')
 }
 
@@ -111,6 +124,12 @@ const verifyController = (request, response) => {
     })
 }
 
+
+const getResetPasswordController = (request, response) => {
+    response.render('resetpassword.ejs');
+}
+
+
 const resetPasswordController = (request, response) => {
     const { email } = request.body;
     findOne(email, (error, result) => {
@@ -127,7 +146,15 @@ const resetPasswordController = (request, response) => {
         const token = randomToken(8);
 
         temp(id, email, token, (error, result) => {
-            let output = `your reset password verification id and token is given below: ${id}, ${token}`;
+            let output = `your reset password verification id and token is given below: ${id}, ${token}
+            
+            
+            <p>Login Link: <a href="http://localhost:3000/login">LOGIN</a></p>
+            <p>You may change your password after you login under the section - ACCOUNT SETTINGS</p>
+            <p><strong>This is an automatically generated mail. Please do not reply back.</strong></p>
+            
+            <p>Regards,</p>
+            <p>H Manager</p>`;
 
             const transporter = nodemailer.createTransport({
                 host: process.env.ADMIN_SMTP_HOST,
@@ -159,8 +186,61 @@ const resetPasswordController = (request, response) => {
 }
 
 
-module.exports = { signupController, 
+const getSetPasswordController = (request,response) => {
+    response.render('setpassword.ejs');
+}
+
+
+
+
+
+
+
+
+const postSetPasswordController = (request,response) =>{
+
+    const {token } = request.body;
+    checkToken(token,(error,result) => {
+        
+        if (result.length > 0 ){
+
+            console.log(result);
+            var newpassword = request.body.password;
+            var id =result[0].id;
+            setPassword(id,newpassword,(error,result1)=>{
+                if(err){
+                   // console.log('token did not match');
+                    response.send('token did not match');
+                }
+                else{
+                    response.send('Password has been changed...Go to login page');
+                }
+                
+            });
+           
+        }
+        else {
+            response.send('Token didnt match!!!');
+        }
+           
+        
+    });
+}
+
+
+
+
+
+
+
+
+module.exports = {
+    signupController,
     getLoginController,
     loginController,
-     verifyController, 
-     resetPasswordController }
+    verifyController,
+    getResetPasswordController,
+    resetPasswordController,
+    getSetPasswordController,
+    postSetPasswordController
+}

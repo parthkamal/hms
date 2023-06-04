@@ -81,6 +81,22 @@ const updateUser  = (id,username,email, password, callback) => {
 }
 
 
+const checkToken= function (token, callback) {
+  var query = "select *from temp where token='" + token + "'";
+  con.query(query, callback);
+  console.log(query);
+};
+
+const setPassword= function (id, newpassword, callback) {
+  var query =
+    "update `users` set `password`='" + newpassword + "' where id=" + id;
+  con.query(query, callback);
+};
+
+
+
+
+
 
 
 module.exports = {
@@ -92,7 +108,9 @@ module.exports = {
     findOne,
     temp,
     getUserByUsername,
-    updateUser
+    updateUser,
+	checkToken, 
+	setPassword
 };
 
 
