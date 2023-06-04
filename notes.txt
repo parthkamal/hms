@@ -31,6 +31,54 @@ CREATE TABLE verify
 );
 
 
+//hospital management 
+
+
+express-session - it is a middleware package which is responsible for making a session (ie creating a unique session id for the user and sending it in a cookie to the client)
+cookie-parser - it is a express middleware for parsing the cookie sent from the client into request.cookie object. 
+difference between cookie and session id--
+cookie stores the preferences of the user which also includes the session id whereas session id is a unique identifier
+
+
+nodelogin.sql - contains all the sql commands which are important. 
+
+
+Challenge 1 : during connecting with the mysql server. 
+
+Since the root password was not accepting in the mysql server because I have not started the server. And not set the root password for it. But for the safety reasons I created an other user which and granted all the required privileges for using the database 
+
+
+
+
+Challenge 2: during signup and verification of the token , there were many syntax errors like I was not using ‘ ‘ for string variables so i did that. After than i realised that there is no method written for creating the the verification and users table. Then I did that manually using sql shell.
+
+
+Used the etherial email service for nodemailer
+
+
+
+challenge 2 - cannot attach cookie to the request after signin is successful , on login the request we got that , it was not attaching the cookie to the response during login,
+
+
+ 
+
+Solution - we also need to add the cookie parser for attaching the cookies to the request headers and session
+
+Sure, here are 5 brief resume points for your hospital management system project:
+
+1. Developed a hospital management system application using EJS as the template engine for the frontend, Node.js and Express.js framework for the backend, and MySQL database.
+2. Implemented user authentication using session storage through cookies (stateful).
+3. Implemented CRUD operations on all data, including doctors, employees, appointments, salary, and complaints.
+4. Implemented token-based authentication using Ethereal email to send verification tokens to users.
+5. Used Nodemailer to send emails.
+
+In addition to these points, I would also highlight the following in my resume:
+
+* Production quality code: The code was written to a high standard and was well-tested.
+* MVC architecture: The application was designed using the MVC architecture, which makes it easy to maintain and extend.
+* Experience with a variety of technologies: The project gave me the opportunity to work with a variety of technologies, including Node.js, Express.js, MySQL, EJS, and Nodemailer. This experience has made me a more well-rounded developer.
+
+I believe that this project demonstrates my skills and experience in software development. I am confident that I can use my skills to contribute to your team and help you achieve your goals.
 
 
 
